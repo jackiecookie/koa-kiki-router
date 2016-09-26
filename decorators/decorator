@@ -1,0 +1,19 @@
+const _dataCache = {};
+
+/*
+ * request method
+ * @param {string} name :get or post
+ * */
+module.exports.method = function (name) {
+    return function (target, bb) {
+        bb = bb || 'prototype';
+        let self = target[bb];
+        self.requestMethod = name;
+    }
+}
+
+
+
+
+
+
