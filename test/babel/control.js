@@ -1,8 +1,8 @@
-import {index} from './indexControl';
+import {controler} from '../control/TestHome';
 import {method} from '../../decorators/decorator'
 import assert from 'assert';
 
-const indexControl = new index();
+const indexControl = new controler();
 
 
 describe('control', function () {

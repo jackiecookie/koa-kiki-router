@@ -3,8 +3,7 @@
 
 REQUIRED = --require should
 
-TESTS=test/* \
-    test/babel/index.js
+TESTS=test/babel/index.js
 
 
 test:

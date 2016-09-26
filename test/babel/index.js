@@ -1,4 +1,5 @@
 require("babel-register");
 
 require("babel-polyfill");
-require('../control/control');
+require('./control');
+require('./KiKiRouter');

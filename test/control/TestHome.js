@@ -1,11 +1,11 @@
 import {method} from '../../decorators/decorator'
 
 @method('get')
-class Index{
+ class Index{
     @method('post')
     home(){
 
     }
 }
 
-module.exports.index=Index;
+module.exports.controler=Index;

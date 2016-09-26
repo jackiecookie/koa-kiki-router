@@ -1,16 +1,33 @@
 const _dataCache = {};
 
 /*
- * request method
- * @param {string} name :get or post
+ * request action
+ * @param {string} name :get or post default is get
  * */
 module.exports.method = function (name) {
-    return function (target, bb) {
-        bb = bb || 'prototype';
-        let self = target[bb];
+    return function (target, actionName) {
+        actionName = actionName || 'prototype';
+        let self = target[actionName];
         self.requestMethod = name;
+        module.exports.action(null)(target, actionName);
     }
 }
+
+
+module.exports.action = function (actionName) {
+    return function (target, action) {
+        if (action) {
+            target.prototype = target.prototype || target;
+            target.prototype.actions = target.prototype.actions || {};
+            target.prototype.actions[action] = action;
+            if (actionName && target.prototype.actions[action]) {
+                target.prototype.actions[action] = actionName;
+            }
+        }
+    }
+}
+
+
 
 
 
