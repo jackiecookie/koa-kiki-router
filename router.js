@@ -38,6 +38,7 @@ Router.prototype._register = function (router) {
             let actionName = router.actions[funName];
             let action = router[funName];
             let requestMethod = action.requestMethod;
+            requestMethod = requestMethod || 'all';
             let urlParameter = action.urlParameter || routerParameter;
             let _actionName = path.join('/', actionName, urlParameter || '');
             routerObj[requestMethod](_actionName, action);

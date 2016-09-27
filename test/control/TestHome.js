@@ -1,7 +1,6 @@
 import {method, action, parameters} from '../../decorators/decorator'
 
 class Index {
-    @method('get')
     @action('/')
     async root(ctx, next) {
         ctx.body = 'success';

@@ -18,8 +18,16 @@ describe('KiKiRouter', function () {
         assert.equal(this.kikiRouter._findFiles().length, 1);
     });
 
-    it('root request 200',function (done) {
+    it('get root request 200 ',function (done) {
         request(this.app.listen()).get('/TestHome').expect(200).end(function (error, content) {
+            if (error) return done(error);
+            assert.equal(content.text,'success');
+            done();
+        });
+    })
+
+    it('post root request 200 ',function (done) {
+        request(this.app.listen()).post('/TestHome').expect(200).end(function (error, content) {
             if (error) return done(error);
             assert.equal(content.text,'success');
             done();
