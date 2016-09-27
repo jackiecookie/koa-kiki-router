@@ -33,13 +33,14 @@ Router.prototype._register = function (router) {
     if (router.actions) {
         let controlName = router.controlName;
         routerObj = koaRouter.prefix('/' + controlName);
-        let routerParameter = router.requestMethod;
-        for (let actionName in router.actions) {
-            let funName = router.actions[actionName];
+        let routerParameter = router.urlParameter;
+        for (let funName in router.actions) {
+            let actionName = router.actions[funName];
             let action = router[funName];
             let requestMethod = action.requestMethod;
-            let urlParameter = action.requestMethod || routerParameter;
-            routerObj[urlParameter]('/'+funName, action);
+            let urlParameter = action.urlParameter || routerParameter;
+            let _actionName = path.join('/', actionName, urlParameter || '');
+            routerObj[requestMethod](_actionName, action);
         }
         return routerObj.routes();
     }
