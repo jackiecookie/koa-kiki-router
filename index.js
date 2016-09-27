@@ -6,6 +6,7 @@ const router = require('./router');
 
 function KiKiRouter(app, options) {
     let self = this;
+    self.app=app;
     if (typeof options === 'string') {
         options = {
             root: options
@@ -18,11 +19,14 @@ function KiKiRouter(app, options) {
     let files = self._findFiles();
 
     if (files.length <= 0)throw new Error('root file did not has any root files');
+    self.files=files;
+}
 
-    files.forEach(function (routerFile) {
-        let _router=new router(routerFile);
-        _router.register();
-    })
+
+
+KiKiRouter.prototype.register=function () {
+    let _router = new router(this.app).init(this.files);
+    _router.register();
 }
 
 
@@ -32,7 +36,7 @@ function KiKiRouter(app, options) {
  * @return file dir list
  * */
 KiKiRouter.prototype._findFiles = function () {
-    let dir=this.root;
+    let dir = this.root;
     let result = [];
     if (!path.isAbsolute(dir)) {
         dir = path.join(process.cwd(), dir);
@@ -41,7 +45,7 @@ KiKiRouter.prototype._findFiles = function () {
     let files = fs.readdirSync(dir);
     files.forEach(function (part) {
         if (path.extname(part) === '.js') {
-            result.push(path.join(dir,part));
+            result.push(path.join(dir, part));
         }
     });
     return result;

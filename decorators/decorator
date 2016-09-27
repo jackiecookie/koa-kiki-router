@@ -5,8 +5,11 @@ const _dataCache = {};
  * @param {string} name :get or post default is get
  * */
 module.exports.method = function (name) {
-    return function (target, actionName) {
-        actionName = actionName || 'prototype';
+    return function (target, actionName, descriptor) {
+        if (!actionName) {
+            return
+        }
+        actionName = actionName;
         let self = target[actionName];
         self.requestMethod = name;
         module.exports.action(null)(target, actionName);
@@ -17,17 +20,47 @@ module.exports.method = function (name) {
 module.exports.action = function (actionName) {
     return function (target, action) {
         if (action) {
-            target.prototype = target.prototype || target;
-            target.prototype.actions = target.prototype.actions || {};
-            target.prototype.actions[action] = action;
-            if (actionName && target.prototype.actions[action]) {
-                target.prototype.actions[action] = actionName;
+            if (!target.actions) {
+                Object.defineProperty(target, 'actions', {
+                    value: {},
+                    writable: false,
+                    enumerable: false,
+                    configurable: true
+                });
+            }
+            target.actions[action] = action;
+            if (actionName && target.actions[action]) {
+                target.actions[action] = actionName;
             }
         }
     }
 }
 
+module.exports.parameters = function (urlParameter) {
+    return function (target, actionName) {
+        if (!actionName && !target.urlParameter) {
+            Object.defineProperty(target, 'urlParameter', {
+                value: urlParameter,
+                writable: false,
+                enumerable: false,
+                configurable: true
+            });
+        } else {
+            target[actionName].urlParameter = urlParameter;
+        }
+    }
+}
 
+
+// module.exports.control = function (target) {
+//     //console.log();
+//     //console.log(Object.keys(target.prototype));
+//     //console.log(target);
+//     for (let aa in target.prototype) {
+//         console.log(aa);
+//     }
+//
+// }
 
 
 

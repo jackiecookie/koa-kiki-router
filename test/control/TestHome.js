@@ -1,11 +1,10 @@
-import {method} from '../../decorators/decorator'
+import {method, control} from '../../decorators/decorator'
 
-@method('get')
- class Index{
+class Index {
     @method('post')
-    home(){
-
+    async home(ctx, next) {
+        ctx.body = 'success';
     }
 }
 
-module.exports.controler=Index;
+module.exports.controler = Index;
